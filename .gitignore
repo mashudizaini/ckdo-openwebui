@@ -1,0 +1,9 @@
+# Secrets — tiap server punya .env sendiri (lihat .env.example)
+.env
+.env-*
+.env.bak*
+
+# Backup & artefak migrasi yang dibuat di server
+*.bak.*
+backups/
+migration/

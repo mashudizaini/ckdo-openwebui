@@ -1,0 +1,114 @@
+# ─────────────────────────────────────────────────────────────
+# CKDO AI Chat Portal — Open WebUI + OpenRouter
+# Jalankan:   docker compose up -d
+# Update:     docker compose pull && docker compose up -d
+# Logs:       docker compose logs -f --tail=50
+# ─────────────────────────────────────────────────────────────
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ckdo-chat-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ckdo-chat-net
+
+  open-webui:
+    # PENTING: jangan pakai tag ":main" untuk produksi — cek tag versi stabil terbaru di
+    # https://github.com/open-webui/open-webui/pkgs/container/open-webui lalu pin di sini.
+    image: ghcr.io/open-webui/open-webui:v0.11.3
+    container_name: ckdo-chat-webui
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      tika:
+        condition: service_started
+    ports:
+      - "3010:8080"
+    environment:
+      # ── Database: Postgres (bukan SQLite bawaan) — wajib untuk multi-user ──
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+
+      # ── Identitas aplikasi ──
+      WEBUI_NAME: "CoChat"
+      WEBUI_URL: ${WEBUI_URL}
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+
+      # ── Governance: user baru masuk status "pending" sampai di-approve admin ──
+      # (mencegah sembarang orang di jaringan kantor langsung dapat akses begitu SSO aktif)
+      DEFAULT_USER_ROLE: "pending"
+
+      # ── Bootstrap admin pertama (otomatis menonaktifkan signup lokal setelah dibuat) ──
+      # Hanya berlaku sekali saat database masih kosong. Setelah admin ini terbentuk,
+      # ENABLE_SIGNUP otomatis jadi false dengan sendirinya — tidak perlu diset manual.
+      WEBUI_ADMIN_EMAIL: ${WEBUI_ADMIN_EMAIL}
+      WEBUI_ADMIN_PASSWORD: ${WEBUI_ADMIN_PASSWORD}
+
+      # ── SSO via Keycloak (realm "ckdo" yang sudah ada, client baru "ckdo-openwebui") ──
+      ENABLE_OAUTH_SIGNUP: "true"
+      OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
+      OAUTH_PROVIDER_NAME: "CKDO SSO"
+      OPENID_PROVIDER_URL: ${KEYCLOAK_OIDC_DISCOVERY_URL}
+      OAUTH_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      OAUTH_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+      OAUTH_SCOPES: "openid email profile"
+      # Aktifkan baris berikut kalau semua login WAJIB lewat SSO (tidak ada akun lokal sama sekali)
+      # ENABLE_LOGIN_FORM: "false"
+
+      # ── Koneksi model via OpenRouter (endpoint OpenAI-compatible) ──
+      OPENAI_API_BASE_URLS: "https://openrouter.ai/api/v1"
+      OPENAI_API_KEYS: ${OPENROUTER_API_KEY}
+
+      # ── RAG: pakai embedding dari Ollama di AI server (VM101), bukan lokal — hemat RAM ──
+      RAG_EMBEDDING_ENGINE: "ollama"
+      RAG_OLLAMA_BASE_URL: ${OLLAMA_SERVER_URL}
+      RAG_EMBEDDING_MODEL: "bge-m3"
+      OLLAMA_BASE_URLS: ${OLLAMA_SERVER_URL}
+
+      # ── Ekstraksi dokumen: Tika (lebih andal untuk PDF hasil scan) ──
+      CONTENT_EXTRACTION_ENGINE: "tika"
+      TIKA_SERVER_URL: "http://tika:9998"
+      TIKA_SERVER_VERSION: "4"
+
+      # ── Matikan fitur berat yang tidak diperlukan, hemat resource di server 4GB ──
+      ENABLE_IMAGE_GENERATION: "false"
+      ENABLE_COMMUNITY_SHARING: "false"
+      ENABLE_WEB_SEARCH: "false"
+      ENABLE_API_KEYS: "true"
+
+      AIOHTTP_CLIENT_TIMEOUT: "300"
+
+    volumes:
+      - openwebui_data:/app/backend/data
+    mem_limit: 1.5g
+    networks:
+      - ckdo-chat-net
+
+  tika:
+    image: apache/tika:latest-full
+    container_name: ckdo-chat-tika
+    restart: unless-stopped
+    mem_limit: 1g
+    networks:
+      - ckdo-chat-net
+
+volumes:
+  postgres_data:
+  openwebui_data:
+
+networks:
+  ckdo-chat-net:
+    driver: bridge
