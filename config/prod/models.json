@@ -1,0 +1,207 @@
+{
+    "id": "cochat-asisten-oracle-ebs",
+    "meta": {
+        "tags": [
+        ],
+        "toolIds": [
+            "oracle_ebs_query"
+        ],
+        "knowledge": null,
+        "description": null,
+        "capabilities": {
+            "memory": true,
+            "vision": true,
+            "terminal": true,
+            "citations": true,
+            "web_search": true,
+            "file_upload": true,
+            "file_context": true,
+            "builtin_tools": true,
+            "status_updates": true,
+            "code_interpreter": true,
+            "image_generation": true
+        },
+        "defaultFeatureIds": [
+            "web_search"
+        ],
+        "profile_image_url": "/static/favicon.png",
+        "suggestion_prompts": null
+    },
+    "name": "CoChat Ass Oracle EBS:Haiku4.5",
+    "params": {
+    },
+    "is_active": true,
+    "base_model_id": "claude-haiku-4-5-20251001"
+}
+{
+    "id": "cochat-ass-comp-ruleshaiku45",
+    "meta": {
+        "tags": [
+        ],
+        "toolIds": [
+            "oracle_ebs_query"
+        ],
+        "knowledge": null,
+        "description": null,
+        "capabilities": {
+            "memory": true,
+            "vision": true,
+            "terminal": true,
+            "citations": true,
+            "web_search": true,
+            "file_upload": true,
+            "file_context": true,
+            "builtin_tools": true,
+            "status_updates": true,
+            "code_interpreter": true,
+            "image_generation": true
+        },
+        "defaultFeatureIds": [
+            "web_search"
+        ],
+        "profile_image_url": "/static/favicon.png",
+        "suggestion_prompts": null
+    },
+    "name": "CoChat Ass Comp Rules:Haiku4.5",
+    "params": {
+    },
+    "is_active": true,
+    "base_model_id": "claude-haiku-4-5-20251001"
+}
+{
+    "id": "cochat-assitant-company-rules-claude",
+    "meta": {
+        "tags": [
+        ],
+        "toolIds": [
+            "oracle_ebs_query"
+        ],
+        "knowledge": null,
+        "description": null,
+        "capabilities": {
+            "memory": true,
+            "vision": true,
+            "terminal": true,
+            "citations": true,
+            "web_search": true,
+            "file_upload": true,
+            "file_context": true,
+            "builtin_tools": true,
+            "status_updates": true,
+            "code_interpreter": true,
+            "image_generation": true
+        },
+        "defaultFeatureIds": [
+            "web_search",
+            "image_generation",
+            "code_interpreter"
+        ],
+        "profile_image_url": "/static/favicon.png",
+        "suggestion_prompts": null
+    },
+    "name": "CoChat Ass Comp Rules:Opus4.8",
+    "params": {
+    },
+    "is_active": true,
+    "base_model_id": "claude-opus-4-8"
+}
+{
+    "id": "cochat-claude-haiku-3",
+    "meta": {
+        "tags": [
+        ],
+        "knowledge": null,
+        "description": null,
+        "capabilities": {
+            "memory": true,
+            "vision": true,
+            "terminal": true,
+            "citations": true,
+            "web_search": true,
+            "file_upload": true,
+            "file_context": true,
+            "builtin_tools": true,
+            "status_updates": true,
+            "code_interpreter": true,
+            "image_generation": true
+        },
+        "profile_image_url": "/static/favicon.png",
+        "suggestion_prompts": null
+    },
+    "name": "CoChat Claude Haiku 4.5",
+    "params": {
+        "max_tokens": 6000
+    },
+    "is_active": true,
+    "base_model_id": "claude-haiku-4-5-20251001"
+}
+{
+    "id": "cochat-claude-opus-46",
+    "meta": {
+        "tags": [
+        ],
+        "knowledge": null,
+        "description": null,
+        "capabilities": {
+            "usage": false,
+            "memory": true,
+            "vision": true,
+            "terminal": true,
+            "citations": true,
+            "web_search": true,
+            "file_upload": true,
+            "file_context": true,
+            "builtin_tools": true,
+            "status_updates": true,
+            "code_interpreter": true,
+            "image_generation": true
+        },
+        "defaultFeatureIds": [
+            "web_search",
+            "image_generation"
+        ],
+        "profile_image_url": "/static/favicon.png",
+        "suggestion_prompts": null
+    },
+    "name": "CoChat Claude Opus 5.5",
+    "params": {
+        "num_ctx": 8000,
+        "max_tokens": 60000
+    },
+    "is_active": true,
+    "base_model_id": "claude-opus-5-5"
+}
+{
+    "id": "cochat-qwen-330b",
+    "meta": {
+        "tags": [
+        ],
+        "knowledge": null,
+        "description": null,
+        "capabilities": {
+            "memory": true,
+            "vision": true,
+            "terminal": true,
+            "citations": true,
+            "web_search": true,
+            "file_upload": true,
+            "file_context": true,
+            "builtin_tools": true,
+            "status_updates": true,
+            "code_interpreter": true,
+            "image_generation": true
+        },
+        "defaultFeatureIds": [
+            "web_search",
+            "image_generation",
+            "code_interpreter"
+        ],
+        "profile_image_url": "/static/favicon.png",
+        "suggestion_prompts": null
+    },
+    "name": "CoChat Qwen 3:30B",
+    "params": {
+    },
+    "is_active": true,
+    "base_model_id": "qwen3:30b"
+}

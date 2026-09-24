@@ -1,0 +1,52 @@
+{
+    "id": "oracle_ebs_query",
+    "name": "Oracle EBS Query",
+    "specs": [
+        {
+            "name": "ask_oracle_ebs",
+            "parameters": {
+                "type": "object",
+                "required": [
+                    "question"
+                ],
+                "properties": {
+                    "question": {
+                        "type": "string",
+                        "description": "pertanyaan dalam bahasa natural"
+                    }
+                }
+            },
+            "description": "Tanya data Oracle EBS maupun kondisi infrastruktur yang menjalankannya, sesuai hak akses user yang sedang chat. Data bisnis: penjualan, COGS/margin, produksi, budget, AR/AP, persediaan, purchase order, headcount, daftar karyawan. Infrastruktur/DBA (hanya untuk user yang diberi akses IT): pemakaian tablespace Oracle beserta trennya, CPU/memori/load server database dan aplikasi, pemakaian disk per mount point, jumlah sesi Oracle dan antrean concurrent request. Gunakan tool ini juga untuk pertanyaan seperti tablespace yang hampir penuh, partisi yang kehabisan ruang, atau beban CPU server."
+        }
+    ],
+    "valves": {
+        "dashboard_api_url": "http://dashboard-dev.ckd-otto.com/api/v1/ai/ebs-chat/query"
+    },
+    "catatan": "dashboard_api_key sengaja tidak diekspor"
+}
+{
+    "id": "user",
+    "name": "__user__",
+    "specs": [
+        {
+            "name": "ask_oracle_ebs",
+            "parameters": {
+                "type": "object",
+                "required": [
+                    "question"
+                ],
+                "properties": {
+                    "question": {
+                        "type": "string",
+                        "description": "pertanyaan dalam bahasa natural"
+                    }
+                }
+            },
+            "description": "Tanya data Oracle EBS (penjualan, COGS/margin, produksi, budget, AR/AP,\npersediaan, purchase order, headcount, daftar karyawan) sesuai hak akses\ndepartment/responsibility user yang sedang chat."
+        }
+    ],
+    "valves": {
+        "dashboard_api_url": "http://dashboard-dev.ckd-otto:3010/api/ebs/chat"
+    },
+    "catatan": "dashboard_api_key sengaja tidak diekspor"
+}
