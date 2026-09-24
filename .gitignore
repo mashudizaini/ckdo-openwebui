@@ -4,6 +4,25 @@
 .env.bak*
 
 # Backup & artefak migrasi yang dibuat di server
+*.bak
 *.bak.*
+*.bak-*
 backups/
 migration/
+
+# Bundel CA untuk sertifikat self-signed dashboard-dev (hanya host dev)
+certs/
+
+# settings.yml memuat server.secret_key yang dibangkitkan per host.
+# Pakai searxng/settings.example.yml sebagai acuan: salin, lalu isi
+# secret_key-nya dengan `openssl rand -hex 32`.
+searxng/settings.yml
+
+# Sisa berkas lama di klon lokal — dibiarkan ada supaya tidak hilang, tapi
+# bukan bagian dari deployment yang berjalan
+_arsip-lama/
+files/
+docker-compose-old*.yml
+
+# Catatan: config/ (hasil scripts/export-config.sh) SENGAJA dilacak —
+# itulah satu-satunya riwayat versi untuk konfigurasi yang hidup di database.

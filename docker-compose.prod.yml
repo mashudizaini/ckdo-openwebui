@@ -1,0 +1,15 @@
+# docker-compose.prod.yml
+# Override untuk CoChat Produksi — cochat.ckd-otto.com (172.21.2.29)
+#
+# Dipakai bersama docker-compose.yml:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# Isinya hanya satu hal: lokasi konfigurasi SearXNG. Di host ini Docker
+# dipasang dengan cara biasa, jadi bind mount relatif terhadap direktori
+# proyek bekerja normal. Bandingkan dengan docker-compose.dev.yml, yang
+# terpaksa memakai path absolut karena alasan yang dijelaskan di sana.
+
+services:
+  searxng:
+    volumes:
+      - ./searxng:/etc/searxng

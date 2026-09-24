@@ -12,6 +12,32 @@
 
 ## 0. Cek Prasyarat
 
+
+> **PENTING — sejak 2026-09-24 compose dipecah per lingkungan.**
+> `docker-compose.yml` sendiri TIDAK lengkap: volume konfigurasi SearXNG ada di
+> berkas override, karena dev dan prod memasangnya dari lokasi berbeda (Docker
+> dev dipasang lewat snap dan hanya boleh bind-mount dari `$HOME`). Selalu
+> sertakan override yang sesuai:
+>
+> ```
+> # produksi (172.21.2.29)
+> docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+>
+> # dev (172.21.2.157)
+> docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+> ```
+>
+> Menjalankan `docker compose up -d` tanpa override membuat SearXNG start
+> dengan konfigurasi bawaan — web search akan gagal tanpa pesan yang jelas,
+> karena format JSON yang dibutuhkan Open WebUI tidak aktif di situ.
+>
+> Sebelum start pertama di host baru, siapkan settings SearXNG-nya:
+> ```
+> cp searxng/settings.example.yml searxng/settings.yml
+> sed -i "s|GANTI-DENGAN-HASIL-openssl-rand-hex-32|$(openssl rand -hex 32)|" searxng/settings.yml
+> ```
+
+
 ```bash
 docker --version          # sudah ada, konfirmasi versi 20+
 docker compose version    # pastikan plugin compose v2 tersedia

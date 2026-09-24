@@ -1,0 +1,46 @@
+# docker-compose.dev.yml
+# Override untuk CoChat Dev — cochat-dev.ckd-otto.com (172.21.2.157)
+#
+# Dipakai bersama docker-compose.yml:
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# Dua hal yang hanya berlaku di host ini.
+
+services:
+  open-webui:
+    # ── Mempercayai sertifikat self-signed milik dashboard-dev ──
+    #
+    # Login SSO ke CoChat dev gagal dengan pesan "email atau password salah",
+    # yang sepenuhnya menyesatkan: penyebab sebenarnya terlihat di log sebagai
+    # invalid_claim 'iss'. Browser membuka dashboard-dev lewat https (blok 443
+    # ada supaya mikrofon Meeting Notes berfungsi), sehingga Keycloak
+    # menerbitkan token ber-iss https://..., sementara KEYCLOAK_OIDC_DISCOVERY_URL
+    # masih http:// — klaimnya tidak cocok dan authlib menolak token itu.
+    #
+    # Discovery URL kini https. Karena sertifikat dev self-signed, bundel CA
+    # gabungan (certifi + sertifikat dev) dipasang MENIMPA bundel bawaan
+    # certifi — bukan sekadar lewat AIOHTTP_CLIENT_SSL_CERT_FILE — sebab
+    # authlib memakai httpx, dan httpx hanya membaca certifi. Seluruh CA publik
+    # tetap ada di dalam bundel itu, jadi koneksi ke Anthropic dan OpenRouter
+    # tidak terpengaruh.
+    #
+    # Rapuh pada satu titik: path di bawah memuat "python3.11". Kalau image
+    # Open WebUI naik ke versi Python lain, path ini harus disesuaikan atau
+    # mount-nya diam-diam tidak mengenai sasaran.
+    environment:
+      AIOHTTP_CLIENT_SSL_CERT_FILE: "/etc/ssl/ckdo/ca-bundle.crt"
+      SSL_CERT_FILE: "/etc/ssl/ckdo/ca-bundle.crt"
+      REQUESTS_CA_BUNDLE: "/etc/ssl/ckdo/ca-bundle.crt"
+    volumes:
+      - openwebui_data:/app/backend/data
+      - /home/cochat/ckdo-chat/certs/ca-bundle.crt:/etc/ssl/ckdo/ca-bundle.crt:ro
+      - /home/cochat/ckdo-chat/certs/ca-bundle.crt:/usr/local/lib/python3.11/site-packages/certifi/cacert.pem:ro
+
+  searxng:
+    volumes:
+      # Path absolut di dalam $HOME, bukan ./searxng seperti di produksi.
+      # Docker di host ini dipasang lewat snap, dan snap-confined Docker hanya
+      # boleh bind-mount dari $HOME dan /media. Bind dari /opt ditolak daemon
+      # dengan "mkdir /opt/ckdo-chat: read-only file system" — meskipun shell
+      # bisa menulis ke direktori itu dengan normal.
+      - /home/cochat/ckdo-chat/searxng:/etc/searxng

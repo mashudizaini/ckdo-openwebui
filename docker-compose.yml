@@ -86,7 +86,12 @@ services:
       # ── Matikan fitur berat yang tidak diperlukan, hemat resource di server 4GB ──
       ENABLE_IMAGE_GENERATION: "false"
       ENABLE_COMMUNITY_SHARING: "false"
-      ENABLE_WEB_SEARCH: "false"
+      # Catatan: variabel ini PersistentConfig — nilainya hanya dipakai saat
+      # database masih kosong. Setelah itu yang menentukan adalah tabel
+      # `config` (kunci web.search.*), diubah lewat Admin Panel atau SQL.
+      ENABLE_WEB_SEARCH: "true"
+      WEB_SEARCH_ENGINE: "searxng"
+      SEARXNG_QUERY_URL: "http://searxng:8080/search?q=<query>"
       ENABLE_API_KEYS: "true"
 
       AIOHTTP_CLIENT_TIMEOUT: "300"
@@ -94,6 +99,30 @@ services:
     volumes:
       - openwebui_data:/app/backend/data
     mem_limit: 1.5g
+    networks:
+      - ckdo-chat-net
+
+  # ─────────────────────────────────────────────────────────────
+  # SearXNG — mesin web search untuk Open WebUI.
+  # Sengaja tanpa "ports": hanya dijangkau dari dalam ckdo-chat-net,
+  # supaya tidak menjadi open search proxy di jaringan kantor.
+  # DuckDuckGo (mesin default Open WebUI) tidak bisa dipakai di sini —
+  # DNS-nya dibajak ke internetpositif3.firstmedia.com dan koneksinya gagal,
+  # jadi SearXNG mengumpulkan hasil dari mesin lain. Lihat searxng/settings.yml.
+  # ─────────────────────────────────────────────────────────────
+  #
+  # Berkas ini TIDAK lengkap dengan sendirinya: volume konfigurasi SearXNG
+  # sengaja tidak ada di sini, karena dev dan prod memasangnya dari lokasi
+  # yang berbeda (lihat docker-compose.dev.yml / docker-compose.prod.yml).
+  # Selalu jalankan dengan salah satu override:
+  #   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+  searxng:
+    image: searxng/searxng:latest
+    container_name: ckdo-chat-searxng
+    restart: unless-stopped
+    environment:
+      SEARXNG_BASE_URL: "http://searxng:8080/"
+    mem_limit: 512m
     networks:
       - ckdo-chat-net
 

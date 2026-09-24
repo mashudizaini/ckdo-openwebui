@@ -1,0 +1,39 @@
+# Templat konfigurasi SearXNG untuk CoChat.
+#
+# settings.yml yang sebenarnya diabaikan git karena memuat secret_key.
+# Di host, salin berkas ini lalu isi secret-nya:
+#
+#   cp searxng/settings.example.yml searxng/settings.yml
+#   sed -i "s|GANTI-DENGAN-HASIL-openssl-rand-hex-32|$(openssl rand -hex 32)|" searxng/settings.yml
+#
+# Di host dev letaknya BUKAN di sini, melainkan /home/cochat/ckdo-chat/searxng/
+# — lihat alasannya di docker-compose.dev.yml.
+
+# SearXNG untuk CoChat — dipakai Open WebUI sebagai mesin web search.
+# Tidak diekspos ke jaringan: hanya dijangkau container lain lewat ckdo-chat-net.
+use_default_settings: true
+
+server:
+  secret_key: "GANTI-DENGAN-HASIL-openssl-rand-hex-32"
+  # Open WebUI memanggil ini secara otomatis; limiter bawaan SearXNG akan
+  # menganggapnya bot dan memblokirnya.
+  limiter: false
+  image_proxy: true
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  default_lang: ""
+  # Format json WAJIB — Open WebUI membaca hasil lewat endpoint JSON, dan
+  # SearXNG hanya melayani html secara default.
+  formats:
+    - html
+    - json
+
+engines:
+  # DuckDuckGo diblokir di jaringan ini (DNS dibajak ke internetpositif3),
+  # jadi dimatikan agar tidak menahan setiap query sampai timeout.
+  - name: duckduckgo
+    disabled: true
+  - name: duckduckgo images
+    disabled: true
