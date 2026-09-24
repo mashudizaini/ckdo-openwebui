@@ -1,0 +1,20 @@
+[
+    {
+        "url": "http://dashboard.ckd-otto.com/api/v1/ebs-tools",
+        "info": {
+            "id": "ebs-data-tools",
+            "name": "CKDO EBS Data Tools",
+            "description": "Data mart Oracle EBS (AP, stok per lot): find_marts, run_sql read-only, intent tools."
+        },
+        "path": "openapi.json",
+        "type": "openapi",
+        "config": {
+            "enable": true
+        },
+        "headers": {
+            "X-OpenWebUI-Chat-Id": "{{CHAT_ID}}",
+            "X-OpenWebUI-User-Email": "{{USER_EMAIL}}"
+        },
+        "auth_type": "bearer"
+    }
+]

@@ -1,0 +1,40 @@
+{
+    "id": "ebs_context",
+    "meta": {
+        "manifest": {
+            "title": "EBS Context",
+            "author": "CKDO IT",
+            "version": "1.0.0",
+            "description": "Menyisipkan tanggal & periode EBS aktif ke percakapan model EBS Analyst, dan menyamarkan data sensitif sebelum dikirim ke model."
+        },
+        "description": "Tanggal & periode EBS aktif, redaksi NPWP/rekening"
+    },
+    "name": "EBS Context",
+    "type": "filter",
+    "valves": {
+    },
+    "catatan": "service_key sengaja tidak diekspor; kode ada di function-<id>.py",
+    "is_active": true,
+    "is_global": false
+}
+{
+    "id": "ebs_export_excel",
+    "meta": {
+        "manifest": {
+            "title": "Export Excel",
+            "author": "CKDO IT",
+            "version": "1.0.0",
+            "description": "Tombol di bawah jawaban EBS Analyst — mengubah tabel di jawaban menjadi file .xlsx."
+        },
+        "description": "Ubah tabel jawaban EBS Analyst menjadi .xlsx"
+    },
+    "name": "Export Excel",
+    "type": "action",
+    "valves": {
+        "timeout": 60,
+        "dashboard_url": "http://dashboard.ckd-otto.com"
+    },
+    "catatan": "service_key sengaja tidak diekspor; kode ada di function-<id>.py",
+    "is_active": true,
+    "is_global": false
+}

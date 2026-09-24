@@ -59,8 +59,46 @@ SELECT jsonb_pretty(jsonb_build_object(
   'params', params::jsonb,
   'meta', meta::jsonb
 ))
-FROM model WHERE id LIKE 'cochat%' ORDER BY id;
+FROM model WHERE id LIKE 'cochat%' OR id = 'ebs-analyst' ORDER BY id;
 " > "$OUT/models.json"
+
+# ── EBS Analyst (Blueprint AI Chat Oracle EBS): tool server, functions,
+#    skills, prompts. Sumbernya openwebui_kit/ di repo dashboard dan dipasang
+#    oleh backend/scripts/configure_openwebui_ebs_analyst.py di sana; ekspor
+#    ini untuk melihat apa yang benar-benar aktif di instance. Kunci bearer
+#    tool server dan valve service_key tidak ikut.
+$PSQL -c "
+SELECT jsonb_pretty(COALESCE(jsonb_agg(c - 'key'), '[]'::jsonb))
+FROM config, jsonb_array_elements(value::jsonb) c
+WHERE key = 'tool_server.connections';
+" > "$OUT/tool-servers.json"
+
+$PSQL -c "
+SELECT jsonb_pretty(jsonb_build_object(
+  'id', id, 'name', name, 'type', type, 'is_active', is_active, 'is_global', is_global,
+  'meta', meta::jsonb,
+  'valves', COALESCE(valves::jsonb, '{}'::jsonb) - 'service_key',
+  'catatan', 'service_key sengaja tidak diekspor; kode ada di function-<id>.py'
+))
+FROM function ORDER BY id;
+" > "$OUT/functions.json"
+
+for fid in $($PSQL -c "SELECT id FROM function ORDER BY id;"); do
+    $PSQL -c "SELECT content FROM function WHERE id = '$fid';" > "$OUT/function-$fid.py"
+done
+
+$PSQL -c "
+SELECT jsonb_pretty(jsonb_build_object(
+  'id', id, 'name', name, 'description', description, 'is_active', is_active,
+  'meta', meta::jsonb, 'content', content
+))
+FROM skill ORDER BY id;
+" > "$OUT/skills.json"
+
+$PSQL -c "
+SELECT jsonb_pretty(jsonb_build_object('command', command, 'name', name, 'content', content))
+FROM prompt ORDER BY command;
+" > "$OUT/prompts.json"
 
 # ── Config: hanya kunci yang pernah kita atur, bukan seluruh tabel ─────────
 $PSQL -c "
