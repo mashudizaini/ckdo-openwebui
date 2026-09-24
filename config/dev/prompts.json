@@ -14,9 +14,29 @@
     "content": "Invoice supplier yang jatuh tempo dari {{tanggal_mulai | hari ini}} sampai {{tanggal_akhir | 7 hari ke depan}}, dengan sisa hutang valas dan IDR."
 }
 {
+    "name": "Nilai persediaan",
+    "command": "nilai-stok",
+    "content": "Nilai persediaan org 121 per kategori item (PMAC), sebutkan periode costing dan item yang belum punya biaya."
+}
+{
     "name": "Pembayaran ke supplier",
     "command": "pembayaran-supplier",
     "content": "Total pembayaran ke supplier {{supplier | semua supplier}} periode {{periode | bulan lalu}}, per supplier."
+}
+{
+    "name": "PO belum diterima",
+    "command": "po-outstanding",
+    "content": "PO yang belum diterima penuh untuk supplier {{supplier | semua supplier}}, tandai yang terlambat, urut tanggal kirim."
+}
+{
+    "name": "PR belum jadi PO",
+    "command": "pr-pending",
+    "content": "PR yang sudah approved tetapi belum dibuatkan PO lebih dari {{hari | 7}} hari, urut paling lama."
+}
+{
+    "name": "Status terima & tagih PO",
+    "command": "status-po",
+    "content": "Status penerimaan dan penagihan PO {{nomor_po}}: qty order, diterima, ditagih, dan invoice yang dicocokkan."
 }
 {
     "name": "Lot mendekati expired",
