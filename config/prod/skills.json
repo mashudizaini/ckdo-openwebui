@@ -47,6 +47,18 @@
     "description": "OM – Sales Order, Pengiriman & Penjualan"
 }
 {
+    "id": "ebs-opm",
+    "meta": {
+        "tags": [
+            "ebs"
+        ]
+    },
+    "name": "ebs-opm",
+    "content": "# OPM – Batch Produksi\n\n## Kapan dipakai\nbatch, bets, produksi, status batch, jadwal produksi, batch terlambat, on time, schedule adherence, yield,\nrendemen, hasil produksi, by-product, pemakaian bahan, konsumsi bahan, selisih bahan, lot bahan dipakai di\nbatch mana, penelusuran lot, traceability\n\n## Mart\n- mart.batch_status: 1 baris = batch (org 121). Kolom kunci: batch_no, batch_status_desc, formula, product_code,\n  product_desc, product_plan_qty, product_actual_qty, yield_pct, plan_start_date, plan_cmplt_date,\n  actual_cmplt_date, completion_delay_days, on_time, schedule_status.\n- mart.batch_yield_variance: 1 baris = batch × produk/by-product. plan_qty, standard_qty, actual_qty, yield_pct.\n- mart.batch_material_usage: 1 baris = batch × bahan × lot. line_standard_qty / line_actual_qty (per baris bahan,\n  diulang per lot, satuan uom), line_variance_pct, lot_number, lot_qty_consumed (satuan lot_uom).\n\n## Intent tool (utamakan)\n- Status batch, batch terlambat, ketepatan jadwal → get_batch_status (group_by: none | status | schedule | product | month)\n- Yield → get_batch_yield (group_by: product | batch | month; below_pct untuk yield rendah)\n- Pemakaian bahan, selisih vs standar, lot bahan → get_batch_material_usage (lot_number untuk penelusuran lot → batch)\n\n## Aturan bisnis\n- Definisi sama dengan dashboard Production: periode batch = tanggal RENCANA MULAI (plan_start_date);\n  yield = aktual ÷ rencana produk, hanya batch Completed/Closed; tepat waktu = aktual selesai ≤ rencana selesai.\n- Status: Pending, WIP, Completed, Closed, Cancelled. Batch Cancelled tidak dihitung dalam yield.\n- Standar bahan (line_standard_qty) = qty formula saat batch dibuat; selisih pemakaian hanya dihitung untuk batch\n  Completed/Closed.\n- Qty lot (lot_qty_consumed) dalam satuan primer item (lot_uom), bisa berbeda dari satuan baris (uom) — selalu\n  sebut satuannya, jangan menjumlah qty berbeda satuan.\n- Nilai Rupiah batch (biaya produksi) belum tersedia di mart — katakan terus terang bila ditanya.\n\n## Jebakan umum\n- Kolom line_* diulang di setiap baris lot: untuk total per bahan pakai group_by = ingredient, jangan menjumlah\n  line_actual_qty dari baris per lot.\n- Batch WIP/Pending yang melewati rencana selesai muncul sebagai \"Belum selesai, lewat rencana\"; batch lama yang\n  tidak pernah ditutup bisa membuat angka ini tinggi — sebutkan tahun rencana mulainya.\n\n## Contoh (golden queries)\nQ: ketepatan jadwal batch tahun ini\nSQL: SELECT COUNT(*) FILTER (WHERE on_time) tepat_waktu, COUNT(*) FILTER (WHERE actual_cmplt_date IS NOT NULL) selesai\n     FROM mart.batch_status WHERE plan_start_date >= DATE_TRUNC('year', CURRENT_DATE);\n\nQ: lot bahan L001 dipakai di batch mana\nSQL: SELECT batch_no, product_code, item_desc, lot_qty_consumed, lot_uom FROM mart.batch_material_usage\n     WHERE lot_number = 'L001';\n",
+    "is_active": true,
+    "description": "OPM – Batch Produksi"
+}
+{
     "id": "ebs-po",
     "meta": {
         "tags": [

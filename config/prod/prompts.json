@@ -14,9 +14,19 @@
     "content": "Daftar invoice supplier yang sedang di-hold beserta alasan dan lamanya, urut paling lama."
 }
 {
+    "name": "Ketepatan jadwal produksi",
+    "command": "jadwal-produksi",
+    "content": "Ketepatan jadwal batch produksi periode {{periode | bulan ini}}: jumlah tepat waktu, terlambat, dan batch berjalan yang lewat rencana."
+}
+{
     "name": "Invoice jatuh tempo",
     "command": "jatuh-tempo",
     "content": "Invoice supplier yang jatuh tempo dari {{tanggal_mulai | hari ini}} sampai {{tanggal_akhir | 7 hari ke depan}}, dengan sisa hutang valas dan IDR."
+}
+{
+    "name": "Lot bahan dipakai di batch mana",
+    "command": "lacak-lot",
+    "content": "Lot bahan {{nomor_lot}} dipakai di batch mana saja, berapa qty-nya, dan produk apa yang dihasilkan."
 }
 {
     "name": "Nilai persediaan",
@@ -54,6 +64,11 @@
     "content": "Sales order yang belum dikirim untuk customer {{customer | semua customer}}, tandai yang terlambat, urut jadwal kirim."
 }
 {
+    "name": "Status & yield batch",
+    "command": "status-batch",
+    "content": "Status, tanggal rencana/aktual, keterlambatan, dan yield batch {{nomor_batch}}, beserta pemakaian bahannya."
+}
+{
     "name": "Status terima & tagih PO",
     "command": "status-po",
     "content": "Status penerimaan dan penagihan PO {{nomor_po}}: qty order, diterima, ditagih, dan invoice yang dicocokkan."
@@ -67,4 +82,9 @@
     "name": "Stok item saat ini",
     "command": "stok-item",
     "content": "Stok saat ini untuk item {{kode_atau_nama_item}}, dipecah GOOD / karantina / reject, dan ED terdekat."
+}
+{
+    "name": "Yield per produk",
+    "command": "yield-produk",
+    "content": "Yield batch per produk periode {{periode | tahun ini}}, urut dari yield terendah."
 }
