@@ -9,6 +9,11 @@
     "content": "Tampilkan aging piutang {{customer | semua customer}} per bucket (Current, 1-30, 31-60, 61-90, >90), urut nilai terbesar."
 }
 {
+    "name": "Biaya per departemen",
+    "command": "biaya-departemen",
+    "content": "Biaya operasional per departemen periode {{periode | tahun ini}} (YTD), urut terbesar."
+}
+{
     "name": "Invoice yang di-hold",
     "command": "invoice-hold",
     "content": "Daftar invoice supplier yang sedang di-hold beserta alasan dan lamanya, urut paling lama."
@@ -22,6 +27,16 @@
     "name": "Invoice jatuh tempo",
     "command": "jatuh-tempo",
     "content": "Invoice supplier yang jatuh tempo dari {{tanggal_mulai | hari ini}} sampai {{tanggal_akhir | 7 hari ke depan}}, dengan sisa hutang valas dan IDR."
+}
+{
+    "name": "Jurnal dari dokumen",
+    "command": "jurnal-invoice",
+    "content": "Jurnal GL yang berasal dari transaksi {{nomor_invoice}}: tanggal, akun, debit/kredit."
+}
+{
+    "name": "Laba rugi",
+    "command": "laba-rugi",
+    "content": "Laba rugi periode {{periode | bulan lalu}} dibanding periode yang sama tahun lalu, per pos, dengan gross profit dan laba setelah pajak."
 }
 {
     "name": "Lot bahan dipakai di batch mana",
@@ -82,6 +97,11 @@
     "name": "Stok item saat ini",
     "command": "stok-item",
     "content": "Stok saat ini untuk item {{kode_atau_nama_item}}, dipecah GOOD / karantina / reject, dan ED terdekat."
+}
+{
+    "name": "Trial balance",
+    "command": "tb",
+    "content": "Trial balance periode {{periode | bulan lalu}}, per pos laporan keuangan (neraca dan laba rugi)."
 }
 {
     "name": "Yield per produk",
