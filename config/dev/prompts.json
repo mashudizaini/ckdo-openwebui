@@ -4,6 +4,11 @@
     "content": "Tampilkan aging hutang {{supplier | semua supplier}} per bucket (Current, 1-30, 31-60, 61-90, >90), urut nilai terbesar."
 }
 {
+    "name": "Aging piutang customer",
+    "command": "aging-piutang",
+    "content": "Tampilkan aging piutang {{customer | semua customer}} per bucket (Current, 1-30, 31-60, 61-90, >90), urut nilai terbesar."
+}
+{
     "name": "Invoice yang di-hold",
     "command": "invoice-hold",
     "content": "Daftar invoice supplier yang sedang di-hold beserta alasan dan lamanya, urut paling lama."
@@ -24,6 +29,16 @@
     "content": "Total pembayaran ke supplier {{supplier | semua supplier}} periode {{periode | bulan lalu}}, per supplier."
 }
 {
+    "name": "Penerimaan kas dari customer",
+    "command": "penerimaan-kas",
+    "content": "Penerimaan kas dari customer {{customer | semua customer}} periode {{periode | bulan ini}}, per customer, termasuk yang belum diaplikasikan."
+}
+{
+    "name": "Penjualan per customer",
+    "command": "penjualan",
+    "content": "Penjualan terinvoice periode {{periode | tahun ini}} per customer, urut nilai terbesar, sebutkan kontribusi retur."
+}
+{
     "name": "PO belum diterima",
     "command": "po-outstanding",
     "content": "PO yang belum diterima penuh untuk supplier {{supplier | semua supplier}}, tandai yang terlambat, urut tanggal kirim."
@@ -32,6 +47,11 @@
     "name": "PR belum jadi PO",
     "command": "pr-pending",
     "content": "PR yang sudah approved tetapi belum dibuatkan PO lebih dari {{hari | 7}} hari, urut paling lama."
+}
+{
+    "name": "SO belum dikirim",
+    "command": "so-backlog",
+    "content": "Sales order yang belum dikirim untuk customer {{customer | semua customer}}, tandai yang terlambat, urut jadwal kirim."
 }
 {
     "name": "Status terima & tagih PO",
