@@ -14,6 +14,11 @@
     "content": "Tampilkan aging piutang {{customer | semua customer}} per bucket (Current, 1-30, 31-60, 61-90, >90), urut nilai terbesar."
 }
 {
+    "name": "PO/PR menunggu approval",
+    "command": "approval-po",
+    "content": "PO dan PR yang menunggu approval lebih dari {{hari | 3}} hari, per approver."
+}
+{
     "name": "Approval workflow tertahan",
     "command": "approval-tertahan",
     "content": "Notifikasi approval yang terbuka lebih dari {{hari | 3}} hari per penerima."
@@ -34,9 +39,19 @@
     "content": "Biaya operasional per departemen periode {{periode | tahun ini}} (YTD), urut terbesar."
 }
 {
+    "name": "Budget vs realisasi",
+    "command": "budget",
+    "content": "Budget vs realisasi vs encumbrance departemen {{departemen}} periode {{periode}}, dengan sisa budget dan % realisasi."
+}
+{
     "name": "Checklist closing periode",
     "command": "cek-closing",
     "content": "Checklist hambatan closing periode {{periode}} semua modul (PO, AP, OM/AR, INV, OPM, CE/FA, GL) dengan status ✅/⚠️/❌ dan pemilik tindakan."
+}
+{
+    "name": "Error open interface",
+    "command": "cek-interface",
+    "content": "Error interface {{AP/AR/GL/INV/RCV | semua}} dengan pesan error, jumlah baris dan yang tertua."
 }
 {
     "name": "Cek patch",
@@ -52,6 +67,21 @@
     "name": "Pelanggaran SoD",
     "command": "cek-sod",
     "content": "Pelanggaran segregation of duties per aturan, urut risiko tertinggi."
+}
+{
+    "name": "Detail PO",
+    "command": "detail-po",
+    "content": "Tampilkan PO {{nomor_po}}: semua baris, qty diterima dan ditagih, serta invoice terkait."
+}
+{
+    "name": "Detail SO",
+    "command": "detail-so",
+    "content": "Tampilkan SO {{nomor_so}}: semua baris, status kirim, delivery, lot, dan nomor invoice."
+}
+{
+    "name": "Biaya PMAC item",
+    "command": "hpp-item",
+    "content": "Biaya PMAC item {{item}} periode {{periode}} per komponen, bandingkan dengan periode sebelumnya."
 }
 {
     "name": "Info user EBS",
@@ -79,6 +109,11 @@
     "content": "Jurnal GL yang berasal dari transaksi {{nomor_invoice}}: tanggal, akun, debit/kredit."
 }
 {
+    "name": "Kartu stok item",
+    "command": "kartu-stok",
+    "content": "Kartu stok {{item}} periode {{periode}}: saldo awal, masuk, keluar, saldo akhir per transaksi."
+}
+{
     "name": "Laba rugi",
     "command": "laba-rugi",
     "content": "Laba rugi periode {{periode | bulan lalu}} dibanding periode yang sama tahun lalu, per pos, dengan gross profit dan laba setelah pajak."
@@ -87,6 +122,11 @@
     "name": "Lot bahan dipakai di batch mana",
     "command": "lacak-lot",
     "content": "Lot bahan {{nomor_lot}} dipakai di batch mana saja, berapa qty-nya, dan produk apa yang dihasilkan."
+}
+{
+    "name": "Mutasi akun",
+    "command": "mutasi-akun",
+    "content": "Mutasi akun {{akun}} dari {{periode_awal}} sampai {{periode_akhir}} dengan jurnal terbesar."
 }
 {
     "name": "Nilai persediaan",
@@ -129,6 +169,11 @@
     "content": "Nilai profile {{profile}} di semua level dan nilai efektifnya."
 }
 {
+    "name": "Proyeksi pembayaran supplier",
+    "command": "proyeksi-bayar",
+    "content": "Proyeksi pembayaran supplier {{minggu | 8}} minggu ke depan per minggu, termasuk yang sudah lewat jatuh tempo."
+}
+{
     "name": "Item bank belum rekon",
     "command": "rekon-bank",
     "content": "Item belum rekon rekening {{rekening | semua rekening}} sampai {{tanggal}}, ringkas per sisi (bank/sistem) dengan tanggal statement terakhir."
@@ -152,6 +197,11 @@
     "name": "Pemegang responsibility",
     "command": "siapa-punya-resp",
     "content": "Daftar user aktif yang memegang responsibility {{responsibility}}, dengan jenis grant (direct/indirect)."
+}
+{
+    "name": "Stok slow moving",
+    "command": "slow-moving",
+    "content": "Item di subinventory GOOD yang tidak bergerak {{hari | 180}} hari, urut paling lama."
 }
 {
     "name": "SO belum dikirim",

@@ -78,10 +78,26 @@ class Tools:
             )
 
         if resp.status_code == 403:
+            # Dashboard membedakan dua kondisi (runbook langkah 10):
+            # scope_not_configured = karyawan dikenali (HR / Oracle EBS) tapi hak
+            # aksesnya belum diatur; user_not_found_in_ebs = email tidak dikenali.
+            try:
+                detail = resp.json().get("detail")
+                code = detail.get("error") if isinstance(detail, dict) else None
+            except ValueError:
+                code = None
+            if code == "scope_not_configured":
+                return (
+                    "[INFO SISTEM] User ini dikenali sebagai karyawan, tetapi hak akses data Oracle EBS "
+                    "untuknya belum diatur. Sampaikan ke user apa adanya: akunnya sudah dikenali, tinggal "
+                    "menunggu tim IT/Dashboard mengatur hak aksesnya (Setup > AI > EBS Chat Access). "
+                    "Jangan menebak penyebab lain."
+                )
             return (
-                "[INFO SISTEM] Email user ini belum terdaftar di sistem data Oracle EBS. "
-                "Sampaikan ke user apa adanya: akunnya belum didaftarkan, minta hubungi "
-                "tim IT/Dashboard untuk didaftarkan. Jangan menebak penyebab lain."
+                "[INFO SISTEM] Email user ini tidak ditemukan sebagai karyawan, baik di data HR Dashboard "
+                "maupun di Oracle EBS. Sampaikan ke user apa adanya: emailnya tidak dikenali, minta hubungi "
+                "tim IT/Dashboard dan pastikan email perusahaan yang dipakai login sudah benar. "
+                "Jangan menebak penyebab lain."
             )
 
         if not resp.ok:

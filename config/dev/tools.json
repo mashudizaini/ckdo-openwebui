@@ -16,7 +16,7 @@
                     }
                 }
             },
-            "description": "Tanya data Oracle EBS maupun kondisi infrastruktur yang menjalankannya, sesuai hak akses user yang sedang chat. Data bisnis: penjualan, COGS/margin, produksi, budget, AR/AP, persediaan, purchase order, headcount, daftar karyawan. Infrastruktur/DBA (hanya untuk user yang diberi akses IT): pemakaian tablespace Oracle beserta trennya, CPU/memori/load server database dan aplikasi, pemakaian disk per mount point, jumlah sesi Oracle dan antrean concurrent request. Gunakan tool ini juga untuk pertanyaan seperti tablespace yang hampir penuh, partisi yang kehabisan ruang, atau beban CPU server."
+            "description": "Tanya data Oracle EBS maupun kondisi infrastruktur yang menjalankannya,\nsesuai hak akses user yang sedang chat.\n\nData bisnis: penjualan, COGS/margin, produksi, budget, AR/AP,\npersediaan, purchase order, headcount, daftar karyawan.\n\nInfrastruktur/DBA (hanya untuk user yang diberi akses IT): pemakaian\ntablespace Oracle beserta trennya, CPU/memori/load server database dan\naplikasi, pemakaian disk per mount point, jumlah sesi Oracle dan\nantrean concurrent request. Pakai tool ini juga untuk pertanyaan\nseperti tablespace yang hampir penuh, partisi yang kehabisan ruang,\natau beban CPU server."
         }
     ],
     "valves": {
