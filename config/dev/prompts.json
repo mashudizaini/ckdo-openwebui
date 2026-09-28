@@ -9,9 +9,34 @@
     "content": "Tampilkan aging piutang {{customer | semua customer}} per bucket (Current, 1-30, 31-60, 61-90, >90), urut nilai terbesar."
 }
 {
+    "name": "Approval workflow tertahan",
+    "command": "approval-tertahan",
+    "content": "Notifikasi approval yang terbuka lebih dari {{hari | 3}} hari per penerima."
+}
+{
     "name": "Biaya per departemen",
     "command": "biaya-departemen",
     "content": "Biaya operasional per departemen periode {{periode | tahun ini}} (YTD), urut terbesar."
+}
+{
+    "name": "Cek patch",
+    "command": "cek-patch",
+    "content": "Apakah patch {{nomor_patch}} sudah diterapkan."
+}
+{
+    "name": "Concurrent request error",
+    "command": "cek-request",
+    "content": "Concurrent request error/warning {{jam | 24}} jam terakhir, dikelompokkan per program, dengan pesan penyelesaiannya."
+}
+{
+    "name": "Pelanggaran SoD",
+    "command": "cek-sod",
+    "content": "Pelanggaran segregation of duties per aturan, urut risiko tertinggi."
+}
+{
+    "name": "Info user EBS",
+    "command": "info-user",
+    "content": "Profil user {{user}}: status, last login, karyawan terkait, dan semua responsibility aktif (direct/indirect)."
 }
 {
     "name": "Invoice yang di-hold",
@@ -74,6 +99,26 @@
     "content": "PR yang sudah approved tetapi belum dibuatkan PO lebih dari {{hari | 7}} hari, urut paling lama."
 }
 {
+    "name": "Nilai profile option",
+    "command": "profile",
+    "content": "Nilai profile {{profile}} di semua level dan nilai efektifnya."
+}
+{
+    "name": "Riwayat login user",
+    "command": "riwayat-login",
+    "content": "Riwayat login {{user}} {{hari | 7}} hari terakhir beserta responsibility dan form."
+}
+{
+    "name": "Siapa yang bisa mengakses fungsi",
+    "command": "siapa-bisa",
+    "content": "User yang bisa mengakses fungsi {{fungsi}} dan lewat responsibility apa."
+}
+{
+    "name": "Pemegang responsibility",
+    "command": "siapa-punya-resp",
+    "content": "Daftar user aktif yang memegang responsibility {{responsibility}}, dengan jenis grant (direct/indirect)."
+}
+{
     "name": "SO belum dikirim",
     "command": "so-backlog",
     "content": "Sales order yang belum dikirim untuk customer {{customer | semua customer}}, tandai yang terlambat, urut jadwal kirim."
@@ -82,6 +127,11 @@
     "name": "Status & yield batch",
     "command": "status-batch",
     "content": "Status, tanggal rencana/aktual, keterlambatan, dan yield batch {{nomor_batch}}, beserta pemakaian bahannya."
+}
+{
+    "name": "Status concurrent manager",
+    "command": "status-manager",
+    "content": "Status concurrent manager dan request yang error {{jam | 24}} jam terakhir."
 }
 {
     "name": "Status terima & tagih PO",
@@ -102,6 +152,16 @@
     "name": "Trial balance",
     "command": "tb",
     "content": "Trial balance periode {{periode | bulan lalu}}, per pos laporan keuangan (neraca dan laba rugi)."
+}
+{
+    "name": "User dormant",
+    "command": "user-dormant",
+    "content": "User aktif yang tidak login {{hari | 90}} hari, tanpa user seeded."
+}
+{
+    "name": "User resign masih aktif",
+    "command": "user-resign-aktif",
+    "content": "User EBS yang masih aktif padahal karyawannya sudah tidak aktif."
 }
 {
     "name": "Yield per produk",

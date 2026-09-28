@@ -9,7 +9,39 @@
         "path": "openapi.json",
         "type": "openapi",
         "config": {
-            "enable": true
+            "enable": true,
+            "access_grants": [
+                {
+                    "permission": "read",
+                    "principal_id": "cf800552-fcac-43cf-8fa4-7e265b1fc5d1",
+                    "principal_type": "group"
+                }
+            ]
+        },
+        "headers": {
+            "X-OpenWebUI-Chat-Id": "{{CHAT_ID}}",
+            "X-OpenWebUI-User-Email": "{{USER_EMAIL}}"
+        },
+        "auth_type": "bearer"
+    },
+    {
+        "url": "http://dashboard-dev.ckd-otto.com/api/v1/ebs-sa-tools",
+        "info": {
+            "id": "ebs-sysadmin-tools",
+            "name": "CKDO EBS System Administration Tools",
+            "description": "User, responsibility, akses fungsi, SoD, profile, login, concurrent, workflow, patch (hanya tim IT allowlist)."
+        },
+        "path": "openapi.json",
+        "type": "openapi",
+        "config": {
+            "enable": true,
+            "access_grants": [
+                {
+                    "permission": "read",
+                    "principal_id": "cf800552-fcac-43cf-8fa4-7e265b1fc5d1",
+                    "principal_type": "group"
+                }
+            ]
         },
         "headers": {
             "X-OpenWebUI-Chat-Id": "{{CHAT_ID}}",
