@@ -1,4 +1,9 @@
 {
+    "name": "Receipt belum ditagih (accrual)",
+    "command": "accrual",
+    "content": "Barang/jasa sudah diterima tetapi belum ditagih supplier per {{periode}}, per supplier, nilai IDR."
+}
+{
     "name": "Aging hutang supplier",
     "command": "aging-hutang",
     "content": "Tampilkan aging hutang {{supplier | semua supplier}} per bucket (Current, 1-30, 31-60, 61-90, >90), urut nilai terbesar."
@@ -14,9 +19,24 @@
     "content": "Notifikasi approval yang terbuka lebih dari {{hari | 3}} hari per penerima."
 }
 {
+    "name": "Ringkasan aset tetap",
+    "command": "aset-tetap",
+    "content": "Ringkasan aset tetap per {{kategori/lokasi/status}}: harga perolehan, akumulasi penyusutan, nilai buku."
+}
+{
+    "name": "Batch belum Closed",
+    "command": "batch-open",
+    "content": "Batch yang masih Pending/WIP/Completed belum Closed lebih dari {{hari | 30}} hari."
+}
+{
     "name": "Biaya per departemen",
     "command": "biaya-departemen",
     "content": "Biaya operasional per departemen periode {{periode | tahun ini}} (YTD), urut terbesar."
+}
+{
+    "name": "Checklist closing periode",
+    "command": "cek-closing",
+    "content": "Checklist hambatan closing periode {{periode}} semua modul (PO, AP, OM/AR, INV, OPM, CE/FA, GL) dengan status ✅/⚠️/❌ dan pemilik tindakan."
 }
 {
     "name": "Cek patch",
@@ -89,6 +109,11 @@
     "content": "Penjualan terinvoice periode {{periode | tahun ini}} per customer, urut nilai terbesar, sebutkan kontribusi retur."
 }
 {
+    "name": "Penyusutan per kategori",
+    "command": "penyusutan",
+    "content": "Penyusutan periode {{periode}} per kategori aset, beserta total YTD dan akumulasi."
+}
+{
     "name": "PO belum diterima",
     "command": "po-outstanding",
     "content": "PO yang belum diterima penuh untuk supplier {{supplier | semua supplier}}, tandai yang terlambat, urut tanggal kirim."
@@ -104,9 +129,19 @@
     "content": "Nilai profile {{profile}} di semua level dan nilai efektifnya."
 }
 {
+    "name": "Item bank belum rekon",
+    "command": "rekon-bank",
+    "content": "Item belum rekon rekening {{rekening | semua rekening}} sampai {{tanggal}}, ringkas per sisi (bank/sistem) dengan tanggal statement terakhir."
+}
+{
     "name": "Riwayat login user",
     "command": "riwayat-login",
     "content": "Riwayat login {{user}} {{hari | 7}} hari terakhir beserta responsibility dan form."
+}
+{
+    "name": "Selisih subledger vs GL",
+    "command": "selisih-subledger",
+    "content": "Selisih subledger vs GL periode {{periode}} per aplikasi: event belum di-account, entry draft/belum transfer, jurnal GL belum posting, dengan 10 dokumen tertua."
 }
 {
     "name": "Siapa yang bisa mengakses fungsi",
@@ -124,6 +159,11 @@
     "content": "Sales order yang belum dikirim untuk customer {{customer | semua customer}}, tandai yang terlambat, urut jadwal kirim."
 }
 {
+    "name": "SO terkirim belum invoice",
+    "command": "so-belum-invoice",
+    "content": "SO yang sudah dikirim tetapi belum menjadi invoice AR beserta alasan error AutoInvoice."
+}
+{
     "name": "Status & yield batch",
     "command": "status-batch",
     "content": "Status, tanggal rencana/aktual, keterlambatan, dan yield batch {{nomor_batch}}, beserta pemakaian bahannya."
@@ -132,6 +172,11 @@
     "name": "Status concurrent manager",
     "command": "status-manager",
     "content": "Status concurrent manager dan request yang error {{jam | 24}} jam terakhir."
+}
+{
+    "name": "Status periode per aplikasi",
+    "command": "status-periode",
+    "content": "Status periode {{periode}} di GL, AP, AR, PO, Inventory, OPM costing dan FA (termasuk apakah penyusutan sudah dijalankan)."
 }
 {
     "name": "Status terima & tagih PO",

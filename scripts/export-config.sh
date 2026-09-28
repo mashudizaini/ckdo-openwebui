@@ -59,7 +59,7 @@ SELECT jsonb_pretty(jsonb_build_object(
   'params', params::jsonb,
   'meta', meta::jsonb
 ))
-FROM model WHERE id LIKE 'cochat%' OR id IN ('ebs-analyst', 'ebs-support') ORDER BY id;
+FROM model WHERE id LIKE 'cochat%' OR id IN ('ebs-analyst', 'ebs-support', 'ebs-finance-controller') ORDER BY id;
 " > "$OUT/models.json"
 
 # ── EBS Analyst (Blueprint AI Chat Oracle EBS): tool server, functions,

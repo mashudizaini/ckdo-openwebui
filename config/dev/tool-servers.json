@@ -15,6 +15,11 @@
                     "permission": "read",
                     "principal_id": "cf800552-fcac-43cf-8fa4-7e265b1fc5d1",
                     "principal_type": "group"
+                },
+                {
+                    "permission": "read",
+                    "principal_id": "d58c9ea1-a7eb-4840-8f04-e24c2295d9b3",
+                    "principal_type": "group"
                 }
             ]
         },
