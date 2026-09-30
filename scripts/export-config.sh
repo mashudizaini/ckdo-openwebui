@@ -110,6 +110,10 @@ FROM prompt ORDER BY command;
 # principal_id '*' berarti "semua user" dan bersifat dinamis: user baru ikut
 # tanpa didaftarkan. id user/grup mentah tidak berguna saat dibaca manusia, jadi
 # diterjemahkan ke email dan nama grup.
+#
+# Satu-satunya keluaran yang TIDAK dilacak git (lihat .gitignore): berkas ini
+# adalah daftar karyawan. Untuk dibaca dan dibandingkan di server; kebijakan
+# yang menghasilkannya ada di scripts/roles-and-model-access.sql.
 $PSQL -c "
 SELECT jsonb_pretty(jsonb_build_object(
   'catatan', 'peran & grant akses; principal * = semua user. Lihat scripts/roles-and-model-access.sql',

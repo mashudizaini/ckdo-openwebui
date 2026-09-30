@@ -24,5 +24,12 @@ _arsip-lama/
 files/
 docker-compose-old*.yml
 
+# access.json (hasil export-config.sh) memuat daftar email karyawan, peran, dan
+# keanggotaan grup. Dibuat supaya bisa dibaca dan dibandingkan DI SERVER, tapi
+# sengaja tidak dilacak: kebijakannya sendiri sudah ada di
+# scripts/roles-and-model-access.sql, dan itulah bagian yang perlu riwayat —
+# bukan daftar orangnya.
+config/*/access.json
+
 # Catatan: config/ (hasil scripts/export-config.sh) SENGAJA dilacak —
 # itulah satu-satunya riwayat versi untuk konfigurasi yang hidup di database.
