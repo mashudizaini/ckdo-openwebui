@@ -1,4 +1,5 @@
 {
+    "ui.enable_signup": true,
     "user.permissions": {
         "chat": {
             "stt": true,
@@ -84,7 +85,10 @@
     "web.search.engine": "searxng",
     "web.loader.timeout": "",
     "rag.embedding_model": "nomic-embed-text",
+    "auth.enable_api_keys": true,
     "rag.embedding_engine": "ollama",
+    "ui.default_user_role": "user",
+    "ui.enable_login_form": false,
     "web.search.trust_env": true,
     "code_execution.enable": true,
     "web.search.exa_api_key": "",

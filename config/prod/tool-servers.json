@@ -53,5 +53,65 @@
             "X-OpenWebUI-User-Email": "{{USER_EMAIL}}"
         },
         "auth_type": "bearer"
+    },
+    {
+        "url": "http://dashboard.ckd-otto.com/api/v1/eis-tools",
+        "info": {
+            "id": "eis-data-tools",
+            "name": "CKDO Company Data Tools",
+            "description": "Company data from Oracle EBS via the dashboard (sales, purchasing, inventory, production, finance, headcount, IT infrastructure), limited to each user's EBS Chat Access scope."
+        },
+        "path": "openapi.json",
+        "type": "openapi",
+        "config": {
+            "enable": true,
+            "access_grants": [
+                {
+                    "permission": "read",
+                    "principal_id": "*",
+                    "principal_type": "user"
+                },
+                {
+                    "permission": "read",
+                    "principal_id": "397616c7-3922-4187-a05a-dee76d39e095",
+                    "principal_type": "user"
+                }
+            ]
+        },
+        "headers": {
+            "X-OpenWebUI-Chat-Id": "{{CHAT_ID}}",
+            "X-OpenWebUI-User-Email": "{{USER_EMAIL}}"
+        },
+        "auth_type": "bearer"
+    },
+    {
+        "url": "http://dashboard.ckd-otto.com/api/v1/company-docs",
+        "info": {
+            "id": "company-docs-tools",
+            "name": "CKDO Company Documents",
+            "description": "Search company rules, policy and SOP documents, limited to each user's document categories."
+        },
+        "path": "openapi.json",
+        "type": "openapi",
+        "config": {
+            "enable": true,
+            "access_grants": [
+                {
+                    "permission": "read",
+                    "principal_id": "*",
+                    "principal_type": "user"
+                },
+                {
+                    "permission": "read",
+                    "principal_id": "397616c7-3922-4187-a05a-dee76d39e095",
+                    "principal_type": "user"
+                }
+            ]
+        },
+        "headers": {
+            "X-OpenWebUI-Chat-Id": "{{CHAT_ID}}",
+            "X-OpenWebUI-User-Email": "{{USER_EMAIL}}"
+        },
+        "auth_type": "bearer"
     }
 ]
