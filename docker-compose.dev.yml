@@ -8,6 +8,22 @@
 
 services:
   open-webui:
+    # ── Resolusi nama di dalam container ──
+    #
+    # Ditambahkan langsung di host (2026-09-30) dan dipindahkan ke sini supaya
+    # tidak hilang pada `git pull` berikutnya. dns menunjuk ke resolver
+    # internal 172.21.2.1 (yang memegang split-DNS ckd-otto.com), dengan 8.8.8.8
+    # sebagai cadangan; extra_hosts memetakan dashboard-dev secara langsung
+    # sehingga panggilan OIDC tetap sampai meskipun resolver sedang bermasalah.
+    #
+    # Hanya di dev: pemetaan host ini menunjuk ke server dev, dan produksi
+    # tidak membutuhkannya.
+    dns:
+      - 172.21.2.1
+      - 8.8.8.8
+    extra_hosts:
+      - "dashboard-dev.ckd-otto.com:172.21.2.209"
+
     # ── Mempercayai sertifikat self-signed milik dashboard-dev ──
     #
     # Login SSO ke CoChat dev gagal dengan pesan "email atau password salah",
