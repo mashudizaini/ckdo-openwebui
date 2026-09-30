@@ -108,7 +108,13 @@ WHERE key LIKE 'web.search.%'
    OR key LIKE 'web.loader.%'
    OR key IN ('code_execution.enable','code_interpreter.enable',
               'rag.embedding_engine','rag.embedding_model',
-              'ui.default_models','user.permissions');
+              'ui.default_models','user.permissions',
+              -- Kebijakan login. Ditambahkan 2026-09-30 setelah mematikan form
+              -- login lokal dan mengubah peran default: keduanya PersistentConfig,
+              -- jadi berkas compose tidak mencerminkan apa yang berlaku. Justru
+              -- kunci-kunci inilah yang paling perlu punya riwayat.
+              'ui.enable_login_form','ui.enable_signup','ui.default_user_role',
+              'auth.enable_api_keys');
 " > "$OUT/config.json"
 
 echo "Diekspor ke $OUT/:"
