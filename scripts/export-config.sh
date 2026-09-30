@@ -100,6 +100,41 @@ SELECT jsonb_pretty(jsonb_build_object('command', command, 'name', name, 'conten
 FROM prompt ORDER BY command;
 " > "$OUT/prompts.json"
 
+# ── Peran user + siapa boleh memakai model/skill/tool apa ──────────────────
+#
+# Ditambahkan 2026-09-30 bersama scripts/roles-and-model-access.sql. Tanpa ini
+# kebijakan akses tidak punya riwayat: peran ada di tabel `user`, dan grant ada
+# di `access_grant` — tak satu pun terlihat di models.json maupun config.json,
+# dan keduanya bisa diubah dengan beberapa klik di Admin Panel.
+#
+# principal_id '*' berarti "semua user" dan bersifat dinamis: user baru ikut
+# tanpa didaftarkan. id user/grup mentah tidak berguna saat dibaca manusia, jadi
+# diterjemahkan ke email dan nama grup.
+$PSQL -c "
+SELECT jsonb_pretty(jsonb_build_object(
+  'catatan', 'peran & grant akses; principal * = semua user. Lihat scripts/roles-and-model-access.sql',
+  'peran', (SELECT jsonb_object_agg(email, role) FROM \"user\"),
+  'grup', (SELECT jsonb_object_agg(g.name, COALESCE(anggota, '[]'::jsonb))
+             FROM \"group\" g
+             LEFT JOIN (SELECT m.group_id, jsonb_agg(u.email ORDER BY u.email) AS anggota
+                          FROM group_member m JOIN \"user\" u ON u.id = m.user_id
+                         GROUP BY m.group_id) x ON x.group_id = g.id),
+  'grant', (SELECT jsonb_object_agg(resource_type, per_type)
+              FROM (SELECT a.resource_type,
+                           jsonb_object_agg(a.resource_id, principals) AS per_type
+                      FROM (SELECT resource_type, resource_id,
+                                   jsonb_agg(DISTINCT CASE
+                                     WHEN principal_id = '*' THEN '*'
+                                     WHEN principal_type = 'group' THEN 'grup:' || COALESCE(g.name, principal_id)
+                                     ELSE COALESCE(u.email, principal_id) END || ':' || permission) AS principals
+                              FROM access_grant a
+                              LEFT JOIN \"group\" g ON g.id = a.principal_id
+                              LEFT JOIN \"user\" u ON u.id = a.principal_id
+                             GROUP BY resource_type, resource_id) a
+                     GROUP BY a.resource_type) t)
+));
+" > "$OUT/access.json"
+
 # ── Config: hanya kunci yang pernah kita atur, bukan seluruh tabel ─────────
 $PSQL -c "
 SELECT jsonb_pretty(jsonb_object_agg(key, value::jsonb))
