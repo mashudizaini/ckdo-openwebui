@@ -3,13 +3,49 @@
 #
 # Dipakai bersama docker-compose.yml:
 #   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-#
-# Isinya hanya satu hal: lokasi konfigurasi SearXNG. Di host ini Docker
-# dipasang dengan cara biasa, jadi bind mount relatif terhadap direktori
-# proyek bekerja normal. Bandingkan dengan docker-compose.dev.yml, yang
-# terpaksa memakai path absolut karena alasan yang dijelaskan di sana.
 
 services:
+  open-webui:
+    # ── Mempercayai sertifikat self-signed milik dashboard produksi ──
+    #
+    # Login SSO gagal dengan pesan "The email or password provided is
+    # incorrect", yang sepenuhnya menyesatkan: akun dan passwordnya tidak
+    # bersalah. Penyebab sebenarnya hanya terlihat di log sebagai
+    # invalid_claim 'iss'.
+    #
+    # Rantainya: pengguna membuka dashboard.ckd-otto.com lewat https, jadi
+    # Keycloak menerbitkan token ber-iss https://... — sementara
+    # KEYCLOAK_OIDC_DISCOVERY_URL masih http://, sehingga authlib
+    # mengharapkan issuer http dan menolak token itu.
+    #
+    # Discovery URL kini https. Karena sertifikat dashboard produksi
+    # self-signed (dibuat 2026-09-22, berlaku sampai 2036), bundel CA
+    # gabungan — certifi ditambah sertifikat itu — dipasang MENIMPA bundel
+    # bawaan certifi. Menimpa, bukan sekadar lewat
+    # AIOHTTP_CLIENT_SSL_CERT_FILE, karena authlib memakai httpx dan httpx
+    # hanya membaca certifi. Seluruh CA publik tetap ada di dalam bundel itu,
+    # jadi koneksi ke Anthropic dan OpenRouter tidak terpengaruh.
+    #
+    # Rapuh pada satu titik: path di bawah memuat "python3.11". Kalau image
+    # Open WebUI naik ke versi Python lain, path ini harus disesuaikan atau
+    # mount-nya diam-diam meleset dan login SSO kembali gagal dengan pesan
+    # yang sama menyesatkannya.
+    #
+    # Kalau nanti dashboard produksi memakai sertifikat yang benar-benar
+    # tepercaya (Let's Encrypt), seluruh blok ini bisa dihapus.
+    environment:
+      AIOHTTP_CLIENT_SSL_CERT_FILE: "/etc/ssl/ckdo/ca-bundle.crt"
+      SSL_CERT_FILE: "/etc/ssl/ckdo/ca-bundle.crt"
+      REQUESTS_CA_BUNDLE: "/etc/ssl/ckdo/ca-bundle.crt"
+    volumes:
+      - openwebui_data:/app/backend/data
+      - ./certs/ca-bundle.crt:/etc/ssl/ckdo/ca-bundle.crt:ro
+      - ./certs/ca-bundle.crt:/usr/local/lib/python3.11/site-packages/certifi/cacert.pem:ro
+
   searxng:
     volumes:
+      # Di host ini Docker dipasang dengan cara biasa, jadi bind mount
+      # relatif terhadap direktori proyek bekerja normal. Bandingkan dengan
+      # docker-compose.dev.yml, yang terpaksa memakai path absolut karena
+      # alasan yang dijelaskan di sana.
       - ./searxng:/etc/searxng
