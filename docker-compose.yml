@@ -47,9 +47,21 @@ services:
       WEBUI_URL: ${WEBUI_URL}
       WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
 
-      # ── Governance: user baru masuk status "pending" sampai di-approve admin ──
-      # (mencegah sembarang orang di jaringan kantor langsung dapat akses begitu SSO aktif)
-      DEFAULT_USER_ROLE: "pending"
+      # ── Governance: peran default untuk user baru ──
+      #
+      # PERHATIAN: ini PersistentConfig. Nilainya hanya dibaca saat database
+      # masih kosong; setelah itu yang menentukan adalah baris
+      # `ui.default_user_role` di tabel config. Berkas ini pernah menulis
+      # "pending" selama berbulan-bulan sementara database berisi "admin" —
+      # akibatnya setiap orang yang login lewat SSO langsung menjadi
+      # administrator, dan tidak ada yang menyadarinya karena compose terlihat
+      # benar. Ubah lewat Admin Panel atau SQL, jangan lewat berkas ini saja.
+      #
+      # "user" dipilih (2026-09-30) supaya login pertama langsung bisa dipakai
+      # tanpa menunggu approval, tanpa memberi hak admin. hostedDomain di
+      # identity provider Google sudah membatasi pendaftaran ke akun
+      # @ckd-otto.com, jadi yang bisa masuk hanya karyawan.
+      DEFAULT_USER_ROLE: "user"
 
       # ── Bootstrap admin pertama (otomatis menonaktifkan signup lokal setelah dibuat) ──
       # Hanya berlaku sekali saat database masih kosong. Setelah admin ini terbentuk,
@@ -65,8 +77,16 @@ services:
       OAUTH_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
       OAUTH_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
       OAUTH_SCOPES: "openid email profile"
-      # Aktifkan baris berikut kalau semua login WAJIB lewat SSO (tidak ada akun lokal sama sekali)
-      # ENABLE_LOGIN_FORM: "false"
+      # Semua login lewat SSO — form email/password lokal disembunyikan supaya
+      # hanya ada satu tombol, dan Keycloak melempar langsung ke Google
+      # (identity-provider-redirector dengan defaultProvider=google).
+      #
+      # Konsekuensi yang harus disadari: kalau SSO rusak, TIDAK ADA yang bisa
+      # masuk lewat antarmuka, termasuk admin. Jalan keluarnya lewat database:
+      #   UPDATE config SET value = 'true' WHERE key = 'ui.enable_login_form';
+      # lalu restart container. Juga PersistentConfig, jadi mengubah baris di
+      # bawah saja tidak cukup pada instance yang sudah berjalan.
+      ENABLE_LOGIN_FORM: "false"
 
       # ── Koneksi model via OpenRouter (endpoint OpenAI-compatible) ──
       OPENAI_API_BASE_URLS: "https://openrouter.ai/api/v1"
