@@ -3,6 +3,18 @@
 # Jalankan:   docker compose up -d
 # Update:     docker compose pull && docker compose up -d
 # Logs:       docker compose logs -f --tail=50
+#
+# PERINGATAN: berkas ini SENDIRI tidak lengkap, dan perintah di atas hanya
+# benar karena .env menyetel COMPOSE_FILE (lihat .env.example). Override per
+# lingkungan memuat bundel CA sertifikat dashboard, volume konfigurasi SearXNG,
+# dan dns/extra_hosts di dev.
+#
+# Menjalankan HANYA berkas ini akan start dengan rapi, lalu gagal diam-diam:
+# login SSO membalas 500 untuk SEMUA pengguna, dengan pesan "internal error"
+# yang tidak menyebut sertifikat sama sekali, dan web search mati. Itu benar-
+# benar terjadi 2026-10-01 di kedua instance. Jadi JANGAN pernah memanggil
+# `-f docker-compose.yml` sendirian, dan jangan menghapus COMPOSE_FILE dari
+# .env dengan alasan merapikan.
 # ─────────────────────────────────────────────────────────────
 
 services:

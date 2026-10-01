@@ -79,7 +79,7 @@
             "allow_groups": true
         }
     },
-    "ui.default_models": null,
+    "ui.default_models": "cochat-claude-haiku-3",
     "web.loader.engine": "",
     "web.search.enable": true,
     "web.search.engine": "searxng",
