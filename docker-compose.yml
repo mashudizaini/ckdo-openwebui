@@ -40,7 +40,7 @@ services:
   open-webui:
     # PENTING: jangan pakai tag ":main" untuk produksi — cek tag versi stabil terbaru di
     # https://github.com/open-webui/open-webui/pkgs/container/open-webui lalu pin di sini.
-    image: ghcr.io/open-webui/open-webui:v0.11.3
+    image: ghcr.io/open-webui/open-webui:v0.11.4
     container_name: ckdo-chat-webui
     restart: unless-stopped
     depends_on:
