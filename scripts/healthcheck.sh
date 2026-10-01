@@ -39,16 +39,23 @@ esac
 
 # 2. Bundel CA menimpa certifi. Tanpa ini httpx menolak sertifikat
 #    self-signed dashboard dan discovery OIDC gagal.
+#    Sumber bundel dibaca dari mount yang benar-benar terpasang, bukan
+#    diasumsikan ./certs: dev memakai path absolut /home/cochat/... karena
+#    Docker-nya dari snap dan hanya boleh bind-mount dari $HOME. Menebak path
+#    di sini membuat dev selalu dilaporkan rusak padahal sehat.
 IN=$(docker exec "$WEBUI" grep -cE BEGIN.CERTIFICATE "$CERT_PATH" 2>/dev/null)
-HOST_BUNDLE=$(grep -cE BEGIN.CERTIFICATE certs/ca-bundle.crt 2>/dev/null || echo 0)
+SRC=$(docker inspect "$WEBUI"       --format "{{range .Mounts}}{{if eq .Destination \"$CERT_PATH\"}}{{.Source}}{{end}}{{end}}" 2>/dev/null)
 if [ -z "$IN" ]; then
     bad "tidak bisa membaca certifi di dalam container"
-elif [ "$HOST_BUNDLE" = "0" ]; then
-    bad "certs/ca-bundle.crt tidak ada di host (container punya $IN sertifikat)"
-elif [ "$IN" = "$HOST_BUNDLE" ]; then
-    ok "bundel CA terpasang ($IN sertifikat, sama dengan host)"
+elif [ -z "$SRC" ]; then
+    bad "bundel CA TIDAK ter-mount ke certifi (container pakai bawaan: $IN sertifikat)"
 else
-    bad "certifi di container $IN sertifikat, bundel host $HOST_BUNDLE — mount tidak kena"
+    HOST_BUNDLE=$(grep -cE BEGIN.CERTIFICATE "$SRC" 2>/dev/null || echo 0)
+    if [ "$IN" = "$HOST_BUNDLE" ]; then
+        ok "bundel CA terpasang ($IN sertifikat) dari $SRC"
+    else
+        bad "certifi di container $IN sertifikat, berkas host $SRC punya $HOST_BUNDLE — mount basi (inode berganti), perlu recreate"
+    fi
 fi
 
 # 3. Login OIDC. 302 = melempar ke Keycloak (benar). 500 = rantai
